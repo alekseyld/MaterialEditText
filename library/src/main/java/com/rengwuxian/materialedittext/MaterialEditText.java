@@ -774,12 +774,17 @@ public class MaterialEditText extends AppCompatEditText {
     correctPaddings();
   }
 
+  public void setRightPaddingClearButtonDisplay(){
+    int buttonsWidth = clearButtonBitmaps[0].getWidth() * getButtonsCount();
+    super.setPadding(super.getPaddingLeft(), super.getPaddingTop(), innerPaddingRight + extraPaddingRight + buttonsWidth, super.getPaddingBottom());
+  }
+
   /**
    * Set paddings to the correct values
    */
   private void correctPaddings() {
     int buttonsWidthLeft = 0, buttonsWidthRight = 0;
-    int buttonsWidth = clearButtonBitmaps[0].getWidth() * getButtonsCount();
+    int buttonsWidth = 0;
     if (isRTL()) {
       buttonsWidthLeft = buttonsWidth;
     } else {
@@ -1297,6 +1302,8 @@ public class MaterialEditText extends AppCompatEditText {
 
     // draw the clear button
     if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText()) && isEnabled()) {
+      setRightPaddingClearButtonDisplay();
+
       paint.setAlpha(255);
       int buttonLeft;
       if (isRTL()) {
@@ -1308,6 +1315,8 @@ public class MaterialEditText extends AppCompatEditText {
       buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
       int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
       canvas.drawBitmap(clearButtonBitmap, endX, iconTop, paint);
+    } else {
+      correctPaddings();
     }
 
     // draw the underline
