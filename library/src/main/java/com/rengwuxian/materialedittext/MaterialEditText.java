@@ -333,7 +333,7 @@ public class MaterialEditText extends AppCompatEditText {
 
   private void init(Context context, AttributeSet attrs) {
     if (isInEditMode()) {
-        return;
+      return;
     }
 
     iconSize = getPixel(32);
@@ -418,11 +418,11 @@ public class MaterialEditText extends AppCompatEditText {
     typedArray.recycle();
 
     int[] paddings = new int[]{
-        android.R.attr.padding, // 0
-        android.R.attr.paddingLeft, // 1
-        android.R.attr.paddingTop, // 2
-        android.R.attr.paddingRight, // 3
-        android.R.attr.paddingBottom // 4
+            android.R.attr.padding, // 0
+            android.R.attr.paddingLeft, // 1
+            android.R.attr.paddingTop, // 2
+            android.R.attr.paddingRight, // 3
+            android.R.attr.paddingBottom // 4
     };
     TypedArray paddingsTypedArray = context.obtainStyledAttributes(attrs, paddings);
     int padding = paddingsTypedArray.getDimensionPixelSize(0, 0);
@@ -779,7 +779,7 @@ public class MaterialEditText extends AppCompatEditText {
    */
   private void correctPaddings() {
     int buttonsWidthLeft = 0, buttonsWidthRight = 0;
-    int buttonsWidth = iconOuterWidth * getButtonsCount();
+    int buttonsWidth = clearButtonBitmaps[0].getWidth() * getButtonsCount();
     if (isRTL()) {
       buttonsWidthLeft = buttonsWidth;
     } else {
@@ -820,8 +820,8 @@ public class MaterialEditText extends AppCompatEditText {
     textPaint.setTextSize(bottomTextSize);
     if (tempErrorText != null || helperText != null) {
       Layout.Alignment alignment = (getGravity() & Gravity.RIGHT) == Gravity.RIGHT || isRTL() ?
-          Layout.Alignment.ALIGN_OPPOSITE : (getGravity() & Gravity.LEFT) == Gravity.LEFT ?
-          Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_CENTER;
+              Layout.Alignment.ALIGN_OPPOSITE : (getGravity() & Gravity.LEFT) == Gravity.LEFT ?
+              Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_CENTER;
       textLayout = new StaticLayout(tempErrorText != null ? tempErrorText : helperText, textPaint, getWidth() - getBottomTextLeftOffset() - getBottomTextRightOffset() - getPaddingLeft() - getPaddingRight(), alignment, 1.0f, 0.0f, true);
       destBottomLines = Math.max(textLayout.getLineCount(), minBottomTextLines);
     } else {
@@ -1307,7 +1307,7 @@ public class MaterialEditText extends AppCompatEditText {
       Bitmap clearButtonBitmap = clearButtonBitmaps[0];
       buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
       int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
-      canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
+      canvas.drawBitmap(clearButtonBitmap, endX, iconTop, paint);
     }
 
     // draw the underline
@@ -1509,8 +1509,8 @@ public class MaterialEditText extends AppCompatEditText {
   private boolean insideClearButton(MotionEvent event) {
     float x = event.getX();
     float y = event.getY();
-    int startX = iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding);
-    int endX = iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding;
+    int startX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding));
+    int endX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding);
     int buttonLeft;
     if (isRTL()) {
       buttonLeft = startX;
