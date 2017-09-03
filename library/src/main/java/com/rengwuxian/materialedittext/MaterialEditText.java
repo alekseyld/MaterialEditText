@@ -1303,19 +1303,22 @@ public class MaterialEditText extends AppCompatEditText {
 
     // draw the clear button
     if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText()) && tempErrorText == null && isEnabled()) {
-      setRightPaddingClearButtonDisplay();
+      if (!(bottomLinesAnimator != null && bottomLinesAnimator.isRunning())){
 
-      paint.setAlpha(255);
-      int buttonLeft;
-      if (isRTL()) {
-        buttonLeft = startX;
-      } else {
-        buttonLeft = endX - iconOuterWidth;
+        setRightPaddingClearButtonDisplay();
+
+        paint.setAlpha(255);
+        int buttonLeft;
+        if (isRTL()) {
+          buttonLeft = startX;
+        } else {
+          buttonLeft = endX - iconOuterWidth;
+        }
+        Bitmap clearButtonBitmap = clearButtonBitmaps[0];
+        buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
+        int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
+        canvas.drawBitmap(clearButtonBitmap, endX, iconTop, paint);
       }
-      Bitmap clearButtonBitmap = clearButtonBitmaps[0];
-      buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
-      int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
-      canvas.drawBitmap(clearButtonBitmap, endX, iconTop, paint);
     } else {
       correctPaddings();
     }
