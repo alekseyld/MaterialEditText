@@ -1302,7 +1302,7 @@ public class MaterialEditText extends AppCompatEditText {
     }
 
     // draw the clear button
-    if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText()) && isEnabled()) {
+    if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText()) && tempErrorText == null && isEnabled()) {
       setRightPaddingClearButtonDisplay();
 
       paint.setAlpha(255);
